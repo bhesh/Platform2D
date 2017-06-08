@@ -9,63 +9,56 @@
 */
 #define MAX_DB_MEM_SIZE (1 << 29)
 
-/**
-	Defines the header of the database.
-*/
-typedef struct _DBHeader {
-	uint16_t num_categories;
-	uint16_t num_entries;
-} DBHeader;
-
-/**
-	Defines the categories in the header.
-*/
-typedef ResourceDB::DBString CategoryEntry;
-
-ResourceDB::Database::Database() {
-	next_id = 0;
+void ResourceDB::Database::AddCatalog(Catalog *catalog) {
+	catalog_map[catalog->catalog_id] = catalog;
 }
 
-ResourceDB::Database::~Database() {
-
-	// Remove the references
-	categories.clear();
-	hashmap.clear();
-	searchmap.clear();
-
-	// Remove the originals
-	items.clear();
+void ResourceDB::Database::RemoveCatalog(Catalog *catalog) {
+	catalog_map.erase(catalog->catalog_id);
 }
 
 ResourceDB::DB_ERROR ResourceDB::Database::Load(const os_char_t *filename) {
-
+	return DB_OK;
 }
 
-ResourceDB::DB_ERROR ResourceDB::Database::Save(const os_char_t *filename) {
-
+ResourceDB::DB_ERROR ResourceDB::Database::Load(const os_string_t &filename) {
+	return Load(filename.c_str());
 }
 
-ResourceDB::DB_ERROR ResourceDB::Database::AddItem(const DBItem &item,
-	uint16_t *ret_id) {
-
+ResourceDB::DB_ERROR ResourceDB::Database::Save(const os_char_t *filename) const {
+	return DB_OK;
 }
 
-ResourceDB::DB_ERROR ResourceDB::Database::DeleteItem(const uint16_t id,
-	DBItem *ret_item) {
-
+ResourceDB::DB_ERROR ResourceDB::Database::Save(const os_string_t &filename) const {
+	return Save(filename.c_str());
 }
 
-ResourceDB::DB_ERROR ResourceDB::Database::GetItemRef(const uint16_t id,
-	DBItem *const &ret_item) {
-
+const ResourceDB::Catalog* ResourceDB::Database::GetCatalog(uint16_t object_id) {
+	return object_map[object_id];
 }
 
-ResourceDB::DB_ERROR ResourceDB::Database::SetItem(const uint16_t id,
-	const DBItem &item) {
-
+std::vector<const ResourceDB::DBEntry *> ResourceDB::Database::Search(
+	const os_char_t *search) const {
+	return Search(os_string_t(search));
 }
 
-std::vector<const ResourceDB::DBItem&> ResourceDB::Database::Search(
-	const os_char_t *search, const os_char_t *category) {
+std::vector<const ResourceDB::DBEntry *> ResourceDB::Database::Search(
+	const os_string_t &search) const {
+	std::vector<const DBEntry *> results;
+	for (auto const entry : catalog_map) {
+		std::vector<const DBEntry *> nresults = entry.second->Search(search);
+		results.insert(results.end(), nresults.begin(), nresults.end());
+	}
+	return results;
+}
 
+std::vector<const ResourceDB::DBEntry *> ResourceDB::Database::Search(
+	const os_char_t *search, uint16_t catalog_id) const {
+	return Search(os_string_t(search), catalog_id);
+}
+
+std::vector<const ResourceDB::DBEntry *> ResourceDB::Database::Search(
+	const os_string_t &search, uint16_t catalog_id) const {
+	const Catalog *catalog = catalog_map.at(catalog_id);
+	return catalog->Search(search);
 }

@@ -2,57 +2,34 @@
 	Copyright 2017 Brian Hession. All rights reserved.
 */
 
+#ifndef RESOURCEDB_DATABASE_H
+#define RESOURCEDB_DATABASE_H
+
 #include "stdafx.h"
 
-#ifndef DB_STRING_SIZE
-#define _DB_STRING_SIZE 128
-#else
-#define _DB_STRING_SIZE DB_STRING_SIZE
-#endif
+#include "ResourceDB/Catalog.h"
+#include "ResourceDB/DBEntry.h"
+#include "ResourceDB/db_error.h"
 
 namespace ResourceDB {
 
-	enum DB_ERROR {
-		DB_OK = 0,
-		DB_IOERROR,
-		DB_NOENTRY,
-		DB_NOMEM,
-		DB_FULL,
-	};
-
-	typedef struct _DBKey {
-		uint16_t db_id;
-		uint16_t db_key;
-	} DBKey;
-
-	typedef struct _DBString {
-		os_char_t value[_DB_STRING_SIZE];
-	} DBString;
-
-	class DBItem {
-	public:
-		virtual DBKey GetId() const;
-		virtual const DBString GetName() const;
-		virtual const DBItemLoader* GetLoader() const;
-	};
-
-	class DBItemLoader {
-	public:
-		const uint16_t unique_id = 0;
-		virtual DB_ERROR Load(std::istream &istream) = 0;
-		virtual DB_ERROR Store(std::ostream &istream) const = 0;
-	};
-
-	class DatabaseScheme {
-	public:
-		void AddLoader(const DBItemLoader &loader);
-		void RemoveLoader(const DBItemLoader &loader);
-		const std::vector<DBItemLoader&> GetLoaders() const;
-	private:
-		std::vector<DBItemLoader&> loaders;
-	};
-
 	class Database {
 	public:
+		void AddCatalog(Catalog *catalog);
+		void RemoveCatalog(Catalog *catalog);
+		DB_ERROR Load(const os_char_t *filename);
+		DB_ERROR Load(const os_string_t &filename);
+		DB_ERROR Save(const os_char_t *filename) const;
+		DB_ERROR Save(const os_string_t &filename) const;
+		const Catalog* GetCatalog(uint16_t object_id);
+		std::vector<const DBEntry *> Search(const os_char_t *search) const;
+		std::vector<const DBEntry *> Search(const os_string_t &search) const;
+		std::vector<const DBEntry *> Search(const os_char_t *search, uint16_t catalog_id) const;
+		std::vector<const DBEntry *> Search(const os_string_t &search, uint16_t catalog_id) const;
+	private:
+		std::unordered_map<uint16_t, const Catalog *> catalog_map;
+		std::unordered_map<uint16_t, const Catalog *> object_map;
 	};
 }
+
+#endif // RESOURCEDB_DATABASE_H

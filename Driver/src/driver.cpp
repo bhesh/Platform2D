@@ -147,13 +147,112 @@ int main(int argc, char **argv) {
 }
 */
 
-#include "ResourceDB/Database.h"
+#include "ResourceDB/DBString.h"
+#include "ResourceDB/DBWriter.h"
+#include "ResourceDB/DBReader.h"
+using namespace ResourceDB;
 
 #include <iostream>
 
 int main(int argc, char **argv) {
-	std::vector<ResourceDB::DBItem> items;
-	std::cout << "Test: " << sizeof(items) << std::endl;
+	DB_ERROR err;
+
+/*
+	DBWriter db;
+
+	// Open the DB
+	err = db.Open(STRING("C:/Users/brian/Desktop/test.db"));
+	if (err != DB_OK) {
+		std::wcout << L"Error opening file" << std::endl;
+		return 1;
+	}
+
+	// Make some data
+	UInt8 byte1 = 0xbb;
+	UInt16 short1 = 0xdead;
+	DBString str1 = STRING("Hello World - Brian Hession");
+	UInt8 bstr[] = { 0xde, 0xad, 0xbe, 0xef };
+
+	// Write the data
+	std::wcout << L"Writing: 0x" << std::hex << byte1 << std::endl;
+	err = db.Write(byte1);
+	if (err != DB_OK)
+		std::wcerr << L"IOERROR" << std::endl;
+	std::wcout << L"Writing: 0x" << std::hex << short1 << std::endl;
+	err = db.Write(short1);
+	if (err != DB_OK)
+		std::wcerr << L"IOERROR" << std::endl;
+	std::wcout << L"Writing: " << str1 << std::endl;
+	err = db.Write(str1);
+	if (err != DB_OK)
+		std::wcerr << L"IOERROR" << std::endl;
+	std::wcout << L"Writing: 0x" << std::hex << 0xdeadbeef << std::endl;
+	err = db.Write(bstr, 4);
+	if (err != DB_OK)
+		std::wcerr << L"IOERROR" << std::endl;
+
+	std::wcout << L"Writing a ton of integers" << std::endl;
+	for (int i = 0; i < 10000000; ++i) {
+		err = db.Write(i);
+		if (err != DB_OK)
+			std::wcerr << L"IOERROR" << std::endl;
+	}
+	std::wcout << L"Done." << std::endl;
+
+	// Close db
+	db.Close();
+/*/
+	DBReader db;
+
+	err = db.Open(STRING("C:/Users/brian/Desktop/test.db"));
+	if (err != DB_OK) {
+		std::wcout << L"Error opening file" << std::endl;
+		return 1;
+	}
+	std::wcout << "Filesize: " << db.GetFileSize() << " bytes" << std::endl;
+
+	// Make some data storage
+	UInt8 byte1;
+	UInt16 short1;
+	DBString str1;
+	UInt8 bstr[4];
+
+	// Write the data
+	err = db.Read(&byte1);
+	if (err != DB_OK)
+		std::wcerr << L"IOERROR" << std::endl;
+	else
+		std::wcout << L"Read: 0x" << std::hex << byte1 << std::endl;
+	err = db.Read(&short1);
+	if (err != DB_OK)
+		std::wcerr << L"IOERROR" << std::endl;
+	else
+		std::wcout << L"Read: 0x" << std::hex << short1 << std::endl;
+	err = db.Read(&str1);
+	if (err != DB_OK)
+		std::wcerr << L"IOERROR" << std::endl;
+	else
+		std::wcout << L"Read: " << str1 << std::endl;
+	size_t bytesRead = db.Read(bstr, 4);
+	if (bytesRead != 4)
+		std::wcerr << L"IOERROR" << std::endl;
+	else
+		for (int i = 0; i < 4; ++i)
+			std::wcout << L"Read: " << std::hex << bstr[i] << std::endl;
+
+	// Read the integers
+	for (int i = 0; i < 10000000; ++i) {
+		int data;
+		err = db.Read(&data);
+		if (err != DB_OK)
+			std::wcerr << L"IOERROR" << std::endl;
+		else if (data != i)
+			std::wcerr << L"Read " << data << " Expected " << i << std::endl;
+	}
+
+	// Close db
+	db.Close();
+//*/
 	char c;
 	std::cin >> c;
 	return 0;
