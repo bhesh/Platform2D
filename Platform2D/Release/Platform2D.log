@@ -1,6 +1,0 @@
-﻿  stdafx.cpp
-  config.cpp
-  display_config.cpp
-  debug.cpp
-  Render.cpp
-  Platform2D.vcxproj -> E:\Projects\Platform2D\Release\Platform2D.lib
