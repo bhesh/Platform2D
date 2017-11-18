@@ -1,0 +1,6 @@
+﻿  stdafx.cpp
+  config.cpp
+  display_config.cpp
+  debug.cpp
+  Render.cpp
+  Platform2D.vcxproj -> E:\Projects\Platform2D\x64\Release\Platform2D.lib

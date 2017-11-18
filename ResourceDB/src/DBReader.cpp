@@ -2,6 +2,8 @@
 	Copyright 2017 Brian Hession. All rights reserved.
 */
 
+#include "stdafx.h"
+
 #include "ResourceDB/DBReader.h"
 
 ResourceDB::DBReader::DBReader() {

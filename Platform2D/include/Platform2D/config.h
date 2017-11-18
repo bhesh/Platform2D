@@ -5,8 +5,9 @@
 #ifndef PLATFORM2D_CONFIG_H
 #define PLATFORM2D_CONFIG_H
 
-#include "platform2d/config/SimpleIni.h"
-#include "platform2d/config/types.h"
+#include "stdafx.h"
+
+#include "config/SimpleIni.h"
 
 namespace platform2d {
 

@@ -5,13 +5,14 @@
 #ifndef PLATFORM2D_GRAPHICS_RENDER_H
 #define PLATFORM2D_GRAPHICS_RENDER_H
 
+#include "stdafx.h"
+
 #include "platform2d/graphics/SpriteRef.h"
 
 #include <SFML/Graphics.hpp>
-
 #include <condition_variable>
 #include <mutex>
-#include <set>
+#include <queue>
 #include <thread>
 
 namespace platform2d {
@@ -23,10 +24,9 @@ namespace platform2d {
 			RenderBase(sf::RenderWindow *window) { this->window = window; }
 			~RenderBase() {};
 			//void SetMap();
-			void Update(std::set<SpriteRef> &sprites);
 		protected:
-			void DrawBackground(const sf::Color color);
-			void DrawForeground(const std::set<SpriteRef> &sprites);
+			void ClearBackground(const sf::Color color);
+			void Draw();
 			sf::RenderWindow *window;
 		};
 
@@ -38,11 +38,21 @@ namespace platform2d {
 			void Stop();
 			//void SetMap();
 			bool IsRunning() const { return thread != nullptr; };
-			void Update(std::set<SpriteRef> &sprites);
+			void SetBackgroundColor(const sf::Color bgColor);
+			void Draw(const sf::Drawable &drawable);
+			void Update();
 			void RenderLoop();
 
 		private:
-			std::set<SpriteRef> sprites;
+			void Swap();
+			sf::Color leftBgColor;
+			std::queue<const sf::Drawable&> leftQueue;
+			sf::Color rightBgColor;
+			std::queue<const sf::Drawable&> rightQueue;
+			sf::Color *drawBgColor;
+			std::queue<const sf::Drawable&> *drawQueue;
+			sf::Color *renderBgColor;
+			std::queue<const sf::Drawable&> *renderQueue;
 			std::thread *thread;
 			std::mutex mutex;
 			std::condition_variable cv;

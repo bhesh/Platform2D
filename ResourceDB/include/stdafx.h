@@ -18,6 +18,9 @@
 #include <unordered_map>
 #include <vector>
 
+#ifndef PLATFORM2D_H
+#define PLATFORM2D_H
+
 #ifdef _MSC_VER
 typedef wchar_t os_char_t;
 typedef std::wstring os_string_t;
@@ -35,3 +38,5 @@ typedef std::ostream os_ostream_t;
 #define STRING(str) str
 #define CHAR(c) c
 #endif
+
+#endif // PLATFORM2D_H

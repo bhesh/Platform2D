@@ -5,9 +5,7 @@
 #ifndef PLATFORM2D_DEBUG_H
 #define PLATFORM2D_DEBUG_H
 
-#include "platform2d/config/types.h"
-#include <iostream>
-#include <stdint.h>
+#include "stdafx.h"
 
 namespace platform2d {
 
