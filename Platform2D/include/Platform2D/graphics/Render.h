@@ -7,8 +7,6 @@
 
 #include "stdafx.h"
 
-#include "platform2d/graphics/SpriteRef.h"
-
 #include <SFML/Graphics.hpp>
 #include <condition_variable>
 #include <mutex>
@@ -19,45 +17,48 @@ namespace platform2d {
 
 	namespace graphics {
 
-		class RenderBase {
+		class PLATFORM2D_API RenderBase {
 		public:
 			RenderBase(sf::RenderWindow *window) { this->window = window; }
 			~RenderBase() {};
-			//void SetMap();
+			void ClearBackground(const sf::Color bgColor);
+			void Draw(const sf::Drawable &item, const sf::RenderStates states);
+			void Update();
 		protected:
-			void ClearBackground(const sf::Color color);
-			void Draw();
 			sf::RenderWindow *window;
 		};
 
-		class RenderThread : public RenderBase {
+		class PLATFORM2D_API RenderThread : public RenderBase {
 		public:
 			RenderThread(sf::RenderWindow *window);
 			~RenderThread() { if (IsRunning()) Stop(); };
 			void Start();
 			void Stop();
-			//void SetMap();
 			bool IsRunning() const { return thread != nullptr; };
 			void SetBackgroundColor(const sf::Color bgColor);
-			void Draw(const sf::Drawable &drawable);
+			void Draw(const sf::Drawable &drawable, const sf::RenderStates states);
 			void Update();
-			void RenderLoop();
 
 		private:
-			void Swap();
-			sf::Color leftBgColor;
-			std::queue<const sf::Drawable&> leftQueue;
-			sf::Color rightBgColor;
-			std::queue<const sf::Drawable&> rightQueue;
-			sf::Color *drawBgColor;
-			std::queue<const sf::Drawable&> *drawQueue;
-			sf::Color *renderBgColor;
-			std::queue<const sf::Drawable&> *renderQueue;
+			void RenderLoop();
 			std::thread *thread;
 			std::mutex mutex;
 			std::condition_variable cv;
-			bool can_update;
 			bool is_running;
+			bool is_rendering;
+
+			// Acts as a double buffer
+			typedef struct _RenderItem {
+				const sf::Drawable *item;
+				sf::RenderStates states;
+			} RenderItem;
+			sf::Color drawBgColor;
+			sf::Color renderBgColor;
+			std::queue<RenderItem*> queue1;
+			std::queue<RenderItem*> queue2;
+			std::queue<RenderItem*> *drawQueue;
+			std::queue<RenderItem*> *renderQueue;
+			void Swap();
 		};
 	}
 }

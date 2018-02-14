@@ -9,6 +9,8 @@
 
 #define WIN32_LEAN_AND_MEAN
 
+#define PLATFORM2D_API __declspec(dllexport)   
+
 #include <iostream>
 #include <string>
 #include <condition_variable>
@@ -19,9 +21,6 @@
 #include <stdint.h>
 
 #include "platform2d/config/SimpleIni.h"
-
-#ifndef PLATFORM2D_H
-#define PLATFORM2D_H
 
 #ifdef _MSC_VER
 typedef wchar_t os_char_t;
@@ -40,5 +39,3 @@ typedef std::ostream os_ostream_t;
 #define STRING(str) str
 #define CHAR(c) c
 #endif
-
-#endif // PLATFORM2D_H

@@ -18,14 +18,14 @@ namespace platform2d {
 
 			@return VideoMode vector of the available fullscreen video modes
 		*/
-		std::vector<sf::VideoMode> GetFullscreenVideoModes();
+		PLATFORM2D_API std::vector<sf::VideoMode> GetFullscreenVideoModes();
 
 		/**
 			Gets the current desktop video mode
 
 			@return the current desktop video mode
 		*/
-		sf::VideoMode GetDesktopVideoMode();
+		PLATFORM2D_API sf::VideoMode GetDesktopVideoMode();
 
 		/**
 			Gets the video mode defined in the INI configuration file. The
@@ -39,7 +39,7 @@ namespace platform2d {
 
 			@return the video mode specified in the INI configuration file
 		*/
-		sf::VideoMode GetConfigVideoMode(ConfigT &configObj);
+		PLATFORM2D_API sf::VideoMode GetConfigVideoMode(ConfigT &configObj);
 
 		/**
 			Sets @c lVideoWidth, @c lVideoHeight, @c lVideoBitsPerPixel in the
@@ -51,7 +51,7 @@ namespace platform2d {
 			@param config the ConfigT object to write to
 			@param vmode the VideoMode object to get the values from
 		*/
-		void SetConfigVideoMode(ConfigT &configObj, sf::VideoMode vmode);
+		PLATFORM2D_API void SetConfigVideoMode(ConfigT &configObj, sf::VideoMode vmode);
 
 		/**
 			Gets whether fullscreen is specified in the INI configuration file.
@@ -65,7 +65,7 @@ namespace platform2d {
 			@return whether fullscreen is specified in the INI configuration
 			file. Defaults to false
 		*/
-		bool IsConfigVideoFullscreen(ConfigT &configObj);
+		PLATFORM2D_API bool IsConfigVideoFullscreen(ConfigT &configObj);
 
 		/**
 			Sets the @c bVideoFullscreen in the @c Video section to the value of
@@ -79,7 +79,7 @@ namespace platform2d {
 			@param isFullscreen set fullscreen to true or false in the
 			configuration file
 		*/
-		void SetConfigVideoFullscreen(ConfigT &configObj, bool isFullscreen);
+		PLATFORM2D_API void SetConfigVideoFullscreen(ConfigT &configObj, bool isFullscreen);
 
 		/**
 			Gets whether the window should be bordered from the INI
@@ -94,7 +94,7 @@ namespace platform2d {
 			@return whether the window should be bordered from the INI from the
 			configuration file. Defaults to true
 		*/
-		bool IsConfigVideoBordered(ConfigT &configObj);
+		PLATFORM2D_API bool IsConfigVideoBordered(ConfigT &configObj);
 
 		/**
 			Sets the @c bVideoBordered in the @c Video section to the value of
@@ -108,7 +108,7 @@ namespace platform2d {
 			@param isBordered set bordered to true or false in the configuration
 			file
 		*/
-		void SetConfigVideoBordered(ConfigT &configObj, bool isBordered);
+		PLATFORM2D_API void SetConfigVideoBordered(ConfigT &configObj, bool isBordered);
 	}
 }
 

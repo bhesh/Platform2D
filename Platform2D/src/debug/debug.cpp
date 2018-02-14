@@ -15,6 +15,14 @@ namespace platform2d {
 		static std::wostream wnullstream(NULL);
 		static std::wostream *wout = &std::wcerr;
 
+		void SetDebugFlags(uint32_t flags) {
+			kDbFlags = flags;
+		}
+
+		uint32_t GetDebugFlags() {
+			return kDbFlags;
+		}
+
 		void SetDebugStream(std::wostream &newstream) {
 			wout = &newstream;
 		}

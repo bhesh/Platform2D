@@ -28,7 +28,7 @@ namespace platform2d {
 
 			@return 0 on success, error code otherwise
 		*/
-		int CreateNewUserConfig(const os_char_t *filename);
+		PLATFORM2D_API int CreateNewUserConfig(const os_char_t *filename);
 	}
 }
 

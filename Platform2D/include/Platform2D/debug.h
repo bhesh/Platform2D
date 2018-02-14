@@ -12,50 +12,46 @@ namespace platform2d {
 	namespace debug {
 
 		/**
-			Masks for setting the different debugging flags.
+			Video debugging flag
 		*/
-		enum {
-			/**
-				Video debugging flag
-			*/
-			DB_VIDEO = 0x1,
-
-			/**
-				Graphics debugging flag
-			*/
-			DB_GRAPHICS = 0x2,
-
-			/**
-				All debugging
-			*/
-			DB_ALL = 0xFFFFFFFF
-		};
+		PLATFORM2D_API const uint32_t DB_VIDEO = 0x1;
 
 		/**
-			The variable that keeps track of which debugging flags are set. Both
-			@c Debug and @c DebugW commands will reference this variable to
-			decide whether to print the message or not. The variable is
-			initially set to 0.
+			Graphics debugging flag
+		*/
+		PLATFORM2D_API const uint32_t DB_GRAPHICS = 0x2;
+
+		/**
+			All debugging
+		*/
+		PLATFORM2D_API const uint32_t DB_ALL = 0xFFFFFFFF;
+
+		/**
+			This function sets the debug flag that supresses or verboses
+			the output of @c Debug and @c DebugW commands.
 
 			An example to set the video debugging flag:
 
 			@code{.cpp}
-				kDbFlags |= DB_VIDEO;
+				SetDebugFlags(DB_VIDEO | DB_GRAPHICS);
 			@endcode
 
-			An example to clear the graphics flag:
-
-			@code{.cpp}
-				kDbFlags &= ~DB_GRAPHICS;
-			@endcode
+			@param the flags to set
 		*/
-		extern uint32_t kDbFlags;
+		PLATFORM2D_API void SetDebugFlags(uint32_t flags);
+
+		/**
+			Returns the current debug flags.
+
+			@return the current debug flags
+		*/
+		PLATFORM2D_API void SetDebugFlags(uint32_t flags);
 
 #ifdef _MSC_VER
 		/**
 			Sets a new @c wostream to direct debugging to
 		*/
-		void SetDebugStream(std::wostream &newstream);
+		PLATFORM2D_API void SetDebugStream(std::wostream &newstream);
 		
 		/**
 			The command to direct debugging messages to. For example:
@@ -67,7 +63,7 @@ namespace platform2d {
 
 			@return a reference to the current @c wostream object
 		*/
-		std::wostream& Debug(uint32_t flag);
+		PLATFORM2D_API std::wostream& Debug(uint32_t flag);
 #else
 		/**
 			Sets a new @c ostream to direct debugging to

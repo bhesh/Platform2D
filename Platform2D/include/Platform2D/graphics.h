@@ -18,7 +18,6 @@
 	designed to be fast and flexible. It utilizes SFML libraries for both
 	graphics and sound and is written in native C++ code.
 
-
 	@section design DESIGN
 
 	TODO: Design
@@ -35,6 +34,5 @@
 #include "stdafx.h"
 
 #include "platform2d/graphics/Render.h"
-#include "platform2d/graphics/SpriteRef.h"
 
 #endif // PLATFORM2D_GRAPHICS_H
